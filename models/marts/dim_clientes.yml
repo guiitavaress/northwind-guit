@@ -1,0 +1,11 @@
+version: 2
+
+models:
+  - name: dim_clientes
+    description: Dimensão de clientes da Northwind. Relação de clientes da Northwind.
+    columns:
+      - name: id_cliente
+        description: <Chave primária da dimensão de clientes>
+        tests:
+          - unique
+          - not_null
