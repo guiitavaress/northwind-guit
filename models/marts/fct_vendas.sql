@@ -14,6 +14,16 @@ with
         from {{ ref('int_vendas__pedido_itens') }}
     )
 
+    , clientes as (
+        select *
+        from {{ ref('dim_clientes') }}
+    )
+
+    , transportadoras as (
+        select *
+        from {{ ref('dim_transportadoras') }}
+    )
+
     , joined_tabelas as (
         select 
         int_vendas.sk_pedido_item
@@ -45,11 +55,24 @@ with
         , funcionarios.cargo_funcionario
         , funcionarios.dt_nascimento_funcionario
         , funcionarios.dt_contratacao
+        , clientes.nome_cliente
+        , clientes.nome_contato
+        , clientes.cargo_cliente
+        , clientes.cidade_cliente
+        , clientes.regiao_cliente
+        , clientes.pais_cliente
+        , clientes.contato_cliente
+        , transportadoras.nome_transportadora
+        , transportadoras.contato_transportadora
         from int_vendas
         left join produtos on
             int_vendas.id_produto = produtos.id_produto
         left join funcionarios on
             int_vendas.id_funcionario = funcionarios.id_funcionario
+        left join clientes on
+            int_vendas.id_cliente = clientes.id_cliente
+        left join transportadoras on
+            int_vendas.id_transportadora = transportadoras.id_transportadora
     )
 
     , transformacoes as (
@@ -103,6 +126,15 @@ with
             , cargo_funcionario
             , dt_nascimento_funcionario
             , dt_contratacao
+            , nome_cliente
+            , nome_contato
+            , cargo_cliente
+            , cidade_cliente
+            , regiao_cliente
+            , pais_cliente
+            , contato_cliente
+            , nome_transportadora
+            , contato_transportadora
         from transformacoes
     )
 
